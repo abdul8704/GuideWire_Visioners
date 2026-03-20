@@ -1,0 +1,12 @@
+node_modules
+dist
+logs
+.env
+.eslintrc.json
+.prettierrc
+vitest.config.ts
+*.test.ts
+.git
+README.md
+data.md
+C:\Users\Balaji\.gemini

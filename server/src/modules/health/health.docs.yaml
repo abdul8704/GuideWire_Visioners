@@ -1,0 +1,20 @@
+paths:
+  /health:
+    get:
+      summary: Health Check
+      description: Check the status of the Guidewire DevTrails Server.
+      responses:
+        200:
+          description: Server is running.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                  data:
+                    type: object
+                    properties:
+                      env: { type: string }
+                      timestamp: { type: string, format: date-time }
