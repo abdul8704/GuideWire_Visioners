@@ -25,7 +25,7 @@ To run the server using Docker:
    ```
 2. **Run the container**:
    ```bash
-   docker run -p 5000:5000 --env-file src/.env guidewire-server
+   docker run -p 5000:5000 --env-file .env guidewire-server
    ```
 
 ## Project Structure (Highlights)

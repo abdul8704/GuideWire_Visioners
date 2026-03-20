@@ -1,0 +1,43 @@
+services:
+  client:
+    container_name: devtrails-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    env_file:
+      - ./client/.env
+    command: npm run start
+
+  server:
+    container_name: devtrails-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    env_file:
+      - ./server/.env
+    command: npm run start
+
+  database:
+    image: postgres:15
+    container_name: devtrails-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: [PASSWORD] 
+      POSTGRES_DB: devtrails
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
