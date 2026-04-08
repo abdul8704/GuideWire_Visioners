@@ -66,6 +66,8 @@ graph LR
     F --> G[UPI Transfer]
 ```
 
+
+
 ### Payout Calculation
 
 ```
@@ -74,19 +76,23 @@ Payout = Max Weekly Payout × Intensity Factor × Duration Factor
 
 #### Intensity Factor — How severe was the event?
 
-| Rainfall (mm/hr) | Intensity Factor |
-| :--- | :--- |
-| 40–55 mm/hr (just above threshold) | 0.50 |
-| 56–70 mm/hr (moderate) | 0.75 |
-| 71 mm/hr+ (severe) | 1.00 |
+
+| Rainfall (mm/hr)                   | Intensity Factor |
+| ---------------------------------- | ---------------- |
+| 40–55 mm/hr (just above threshold) | 0.50             |
+| 56–70 mm/hr (moderate)             | 0.75             |
+| 71 mm/hr+ (severe)                 | 1.00             |
+
 
 #### Duration Factor — How long did it last?
 
-| Duration | Duration Factor |
-| :--- | :--- |
-| 2–4 hours | 0.40 |
-| 4–8 hours | 0.70 |
-| 8+ hours (full day) | 1.00 |
+
+| Duration            | Duration Factor |
+| ------------------- | --------------- |
+| 2–4 hours           | 0.40            |
+| 4–8 hours           | 0.70            |
+| 8+ hours (full day) | 1.00            |
+
 
 ---
 
@@ -96,18 +102,12 @@ Payout = Max Weekly Payout × Intensity Factor × Duration Factor
 
 Premiums are dynamically adjusted (±30%) based on the **ZoneRisk Score**.
 
-| Plan | Weekly Premium | Max Weekly Payout | % of Weekly Income |
-| :--- | :--- | :--- | :--- |
-| **Basic** | ₹39 / week | ₹600 | ~0.8% |
-| **Standard** | ₹69 / week | ₹1,500 | ~1.4% |
-| **Pro** | ₹119 / week | ₹2,500 | ~2.4% |
+| Plan         | Weekly Premium | Max Weekly Payout |
+| ------------ | -------------- | ----------------- |
+| **Basic**    | ₹39 / week     | ₹600              |
+| **Standard** | ₹69 / week     | ₹1,500            |
+| **Pro**      | ₹119 / week    | ₹2,500            |
 
-### Payment Modes
-
-| Mode | How It Works | Best For |
-| :--- | :--- | :--- |
-| **Micro-Deduction** | ₹0.50–₹1 deducted per delivery | Variable income weeks |
-| **One-Time Weekly** | Fixed premium via UPI | Predictability and full upfront coverage |
 
 ---
 
@@ -120,12 +120,14 @@ Premiums are dynamically adjusted (±30%) based on the **ZoneRisk Score**.
 
 ### Fairness Comparison
 
-| Feature | Traditional Insurance | IncomeShield Parametric |
-| :--- | :--- | :--- |
-| **Claim Process** | File form, submit proof, wait weeks | **Automatic, zero action required** |
-| **Payout Basis** | Actual documented loss | **Objective trigger data** |
-| **Fraud Surface** | High (inflated claims) | **Near zero (unfakable weather data)** |
-| **Payout Time** | Days to weeks | **90 seconds** |
+
+| Feature           | Traditional Insurance               | IncomeShield Parametric                |
+| ----------------- | ----------------------------------- | -------------------------------------- |
+| **Claim Process** | File form, submit proof, wait weeks | **Automatic, zero action required**    |
+| **Payout Basis**  | Actual documented loss              | **Objective trigger data**             |
+| **Fraud Surface** | High (inflated claims)              | **Near zero (unfakable weather data)** |
+| **Payout Time**   | Days to weeks                       | **90 seconds**                         |
+
 
 ---
 
@@ -159,17 +161,21 @@ graph TD
     AnalyticsAPI --> PostgreSQL[(PostgreSQL)]
 ```
 
+
+
 ### Tech Stack
 
-| Layer | Technology |
-| :--- | :--- |
+
+| Layer        | Technology                                                   |
+| ------------ | ------------------------------------------------------------ |
 | **Frontend** | React 19, React Router 7, Tailwind CSS 4, Vite 7, TypeScript |
-| **Backend** | Node.js, Express 5, TypeScript, Zod validation |
-| **Database** | PostgreSQL 15 |
-| **DevOps** | Docker, Docker Compose |
-| **AI/ML** | Scikit-Learn (Random Forest, Isolation Forest) |
-| **APIs** | OpenWeatherMap, Razorpay (simulated) |
-| **Docs** | Swagger UI (dev-only) |
+| **Backend**  | Node.js, Express 5, TypeScript, Zod validation               |
+| **Database** | PostgreSQL 15                                                |
+| **DevOps**   | Docker, Docker Compose                                       |
+| **AI/ML**    | Scikit-Learn (Random Forest, Isolation Forest)               |
+| **APIs**     | OpenWeatherMap, Razorpay (simulated)                         |
+| **Docs**     | Swagger UI (dev-only)                                        |
+
 
 ---
 
@@ -189,22 +195,26 @@ GPS coordinates alone can be faked using freely available spoofing apps. FraudSh
 
 **Key insight:** A real stranded worker and a GPS spoofer behave completely differently on the app — even if their GPS coordinates look identical.
 
-| Signal | Genuine Stranded Worker | GPS Spoofer |
-| :--- | :--- | :--- |
-| **App interaction** | Frantic taps, repeated map reloads, SOS button opens | Idle session or unnaturally scripted, uniform interaction |
-| **Claim timing** | Filed within minutes of the weather trigger firing | Batched submissions — statistically identical timestamps across a group |
-| **Order history alignment** | Claimed zone matches past active delivery routes | Zone is new or has no delivery history for that worker |
-| **IP vs. GPS delta** | IP-resolved city matches the claimed GPS zone | VPN-masked IP or city completely different from claimed GPS location |
-| **Network type** | Mobile data — expected when stranded outdoors | Wi-Fi connection at 2 AM during a claimed road flooding event |
-| **Cohort claim rate** | ~60–80% of workers in the same zone also claimed | Suspiciously low zone claim rate, or entire group claims within seconds of each other |
+
+| Signal                      | Genuine Stranded Worker                              | GPS Spoofer                                                                           |
+| --------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **App interaction**         | Frantic taps, repeated map reloads, SOS button opens | Idle session or unnaturally scripted, uniform interaction                             |
+| **Claim timing**            | Filed within minutes of the weather trigger firing   | Batched submissions — statistically identical timestamps across a group               |
+| **Order history alignment** | Claimed zone matches past active delivery routes     | Zone is new or has no delivery history for that worker                                |
+| **IP vs. GPS delta**        | IP-resolved city matches the claimed GPS zone        | VPN-masked IP or city completely different from claimed GPS location                  |
+| **Network type**            | Mobile data — expected when stranded outdoors        | Wi-Fi connection at 2 AM during a claimed road flooding event                         |
+| **Cohort claim rate**       | ~60–80% of workers in the same zone also claimed     | Suspiciously low zone claim rate, or entire group claims within seconds of each other |
+
 
 **BTS scoring thresholds:**
 
-| Score | Outcome |
-| :--- | :--- |
-| BTS ≥ 75 | Auto-approved → UPI payout in 90 seconds ✅ |
+
+| Score     | Outcome                                                   |
+| --------- | --------------------------------------------------------- |
+| BTS ≥ 75  | Auto-approved → UPI payout in 90 seconds ✅                |
 | BTS 40–74 | Soft verification → one-tap confirm → payout in 15 min 🟡 |
-| BTS < 40 | Held for human review (2-hour SLA) 🔴 |
+| BTS < 40  | Held for human review (2-hour SLA) 🔴                     |
+
 
 ---
 
@@ -217,27 +227,20 @@ IncomeShield analyzes patterns **across workers and across time**, not just per 
 #### Per-Claim Software Signals
 
 - **Claim velocity spike** — Redis real-time counters track claims filed in a rolling 10-minute window per zone. A genuine weather event creates a gradual, organic curve. A fraud syndicate creates a sharp, synchronized spike — statistically impossible to happen naturally.
-
 - **IP geolocation delta** — Every claim logs the device's IP-resolved city alongside the claimed GPS zone. GPS spoofing requires an active internet connection, so the real location leaks through the IP. A Bengaluru IP claiming a Hyderabad flood zone is an immediate hard flag.
-
 - **Device fingerprint clustering** — Every device has a fingerprint: `device_id`, OS version, app version, and screen resolution hash, stored in PostgreSQL. Fraud rings distribute mass-cloned spoofing apps that share near-identical fingerprints — making the cluster instantly visible even across seemingly different accounts.
-
 - **Historical zone consistency** — The system checks whether the worker has actually delivered in the claimed disruption zone over the past 30 days. A worker who has never operated in a zone suddenly claiming a disruption there is a significant anomaly.
-
 - **Order-to-claim delta** — Was the worker on an active order when the parametric trigger fired? A worker with no live orders during the disruption window wasn't even working that shift — their payout weight is significantly reduced, since there was no actual income to disrupt.
 
 #### Cross-Worker Ring Detection
 
 - **Temporal correlation score** — If 50+ workers in the same postal zone file claims within a 3-minute window with identical claim amounts, a `RING_DETECTION_ALERT` is raised. This bypasses individual BTS scores — even a high-scoring individual is held for review if part of a flagged cluster. The threshold is configurable and tightens as the model learns normal claim curves.
-
 - **Referral and onboarding graph** — Workers who registered in the same onboarding batch or share a referral chain are tagged as a cluster. Coordinated fraud rings almost always recruit through the same channel. This graph relationship adds weight to ring suspicion even before any claims are filed.
-
 - **Payout uniformity flag** — Real workers show natural variance in claim amounts based on shift duration, plan tier, and income drop. A cluster where 90%+ of members claim the exact maximum tier triggers an automatic uniformity flag.
 
 #### External Corroboration
 
 - **OpenWeatherMap API cross-check** — Before fraud scoring begins, every claim is validated against the OpenWeatherMap API. The claimed zone must have an active, confirmed threshold breach (e.g., rainfall > 40 mm/hr) at the exact time of the claim. No API confirmation = instant rejection. This alone eliminates all claims filed outside any real weather event.
-
 - **Platform order feed income validation** — The mock Swiggy/Zomato order feed cross-checks whether the worker's actual order count dropped during the disruption window. A worker who completed 12 orders during a claimed flood event receives zero payout — turning the income simulation into a fraud detection tool simultaneously.
 
 ---
@@ -255,6 +258,7 @@ BTS < 40 / Ring Flag →  Hold + Review     →  Human review, 2-hour SLA       
 **Tier 1 — Auto-Approve (BTS ≥ 75)**
 
 The claim passes all checks. Payout fires instantly. Worker receives a WhatsApp notification:
+
 > *"Your claim has been verified and approved. ₹1,500 is on its way. ✅"*
 
 Zero friction. Zero delay. This is the path for the vast majority of honest claims during genuine disruptions.
@@ -262,6 +266,7 @@ Zero friction. Zero delay. This is the path for the vast majority of honest clai
 **Tier 2 — Soft Verify (BTS 40–74)**
 
 The score is uncertain — not suspicious enough to hold, but not clean enough to auto-approve. The worker receives a single, empathetic in-app prompt:
+
 > *"We're confirming your claim due to network conditions in your area. Please tap below to confirm you are currently unable to complete deliveries."*
 
 - One tap. No document upload. No phone call. No proof photos.
@@ -283,6 +288,7 @@ The claim shows significant anomaly signals or is part of a flagged cluster.
 **Why honest workers rarely hit Tier 3**
 
 A genuine delivery partner caught in bad weather will naturally exhibit:
+
 - ✅ Consistent zone delivery history in the platform
 - ✅ Human (irregular, frantic) app interaction patterns
 - ✅ Mobile data connection, not Wi-Fi
@@ -296,11 +302,13 @@ These signals collectively push BTS above 75 in almost every real stranding scen
 
 ### Strategy Summary
 
-| Strategy | What It Targets | When It Fires | Handles False Positives? |
-| :--- | :--- | :--- | :--- |
-| **Behavioral Trust Score (BTS)** | Individual bad actor faking GPS location | Per-claim, real-time on every submission | ✅ Honest workers score high naturally |
-| **Fraud Ring Detection** | Coordinated syndicates organizing via Telegram | Cross-worker batch analysis on cluster anomalies | ⚠️ Ring flag triggers human review, never auto-denial |
-| **Three-Tier UX Flow** | Honest workers wrongly caught in a fraud flag | Post-scoring resolution layer | ✅ Core purpose is protecting genuine claimants |
+
+| Strategy                         | What It Targets                                | When It Fires                                    | Handles False Positives?                              |
+| -------------------------------- | ---------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------- |
+| **Behavioral Trust Score (BTS)** | Individual bad actor faking GPS location       | Per-claim, real-time on every submission         | ✅ Honest workers score high naturally                 |
+| **Fraud Ring Detection**         | Coordinated syndicates organizing via Telegram | Cross-worker batch analysis on cluster anomalies | ⚠️ Ring flag triggers human review, never auto-denial |
+| **Three-Tier UX Flow**           | Honest workers wrongly caught in a fraud flag  | Post-scoring resolution layer                    | ✅ Core purpose is protecting genuine claimants        |
+
 
 ### End-to-End Flow
 
@@ -330,13 +338,15 @@ BTS catches the individual spoofer. Ring Detection catches the organized group. 
 
 Ensure you have the following installed:
 
-| Tool | Version | Required For |
-| :--- | :--- | :--- |
-| [Node.js](https://nodejs.org/) | v20+ | Client & Server |
-| [npm](https://www.npmjs.com/) | v10+ | Dependency management |
-| [Docker](https://www.docker.com/) | v24+ | Containerized setup *(optional)* |
-| [Docker Compose](https://docs.docker.com/compose/) | v2+ | Multi-container orchestration *(optional)* |
-| [PostgreSQL](https://www.postgresql.org/) | v15 | Database *(only if running locally without Docker)* |
+
+| Tool                                               | Version | Required For                                        |
+| -------------------------------------------------- | ------- | --------------------------------------------------- |
+| [Node.js](https://nodejs.org/)                     | v20+    | Client & Server                                     |
+| [npm](https://www.npmjs.com/)                      | v10+    | Dependency management                               |
+| [Docker](https://www.docker.com/)                  | v24+    | Containerized setup *(optional)*                    |
+| [Docker Compose](https://docs.docker.com/compose/) | v2+     | Multi-container orchestration *(optional)*          |
+| [PostgreSQL](https://www.postgresql.org/)          | v15     | Database *(only if running locally without Docker)* |
+
 
 ### 1. Clone the Repository
 
@@ -349,13 +359,15 @@ cd GuideWire_Visioners
 
 Create `.env` files in both the `client/` and `server/` directories:
 
-**`client/.env`**
+`**client/.env**`
+
 ```env
 NODE_ENV="development"
 PORT=5173
 ```
 
-**`server/.env`**
+`**server/.env**`
+
 ```env
 PORT=5000
 NODE_ENV="development"
@@ -374,13 +386,16 @@ This spins up the **client**, **server**, and **PostgreSQL** database in one com
 docker compose up --build
 ```
 
-| Service | URL |
-| :--- | :--- |
-| Client | [http://localhost:5173](http://localhost:5173) |
-| Server | [http://localhost:5000](http://localhost:5000) |
+
+| Service    | URL                                               |
+| ---------- | ------------------------------------------------- |
+| Client     | [http://localhost:5173](http://localhost:5173)    |
+| Server     | [http://localhost:5000](http://localhost:5000)    |
 | PostgreSQL | `localhost:5432` (user: `admin`, db: `devtrails`) |
 
+
 To stop all services:
+
 ```bash
 docker compose down
 ```
@@ -397,7 +412,7 @@ npm install
 npm run dev          # Development mode with hot-reload (tsx)
 ```
 
-The server will start on **http://localhost:5000**.
+The server will start on **[http://localhost:5000](http://localhost:5000)**.
 
 > [!TIP]
 > Use `npm run dev:watch` for automatic restart on file changes.
@@ -410,4 +425,4 @@ npm install
 npm run dev          # Vite dev server with HMR
 ```
 
-The client will start on **http://localhost:5173**.
+The client will start on **[http://localhost:5173](http://localhost:5173)**.

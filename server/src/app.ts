@@ -12,6 +12,9 @@ import logger from "./utils/logger.js";
 import env from "./config/env.js";
 import swaggerSpec from "./docs/swagger.js";
 import healthRoutes from "./modules/health/health.routes.js";
+import mvpRoutes from "./modules/mvp/mvp.routes.js";
+import adminRoutes from "./modules/admin/admin.routes.js";
+import { startTriggerMonitor } from "./modules/mvp/trigger.monitor.js";
 
 const app: Express = express();
 
@@ -53,6 +56,9 @@ if (env.NODE_ENV === "development") {
 
 // Routes
 app.use("/health", healthRoutes);
+app.use("/api", mvpRoutes);
+app.use("/api/admin", adminRoutes);
+startTriggerMonitor();
 
 app.get("/", (_req, res) => {
     let message = "Welcome to Guidewire DevTrails API.";

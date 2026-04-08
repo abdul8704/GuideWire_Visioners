@@ -1,20 +1,22 @@
 services:
   client:
-    container_name: devtrails-client
+    container_name: incomeshield-client
     build:
       context: ./client
       dockerfile: Dockerfile.client
     ports:
-      - "3000:3000"
+      - "5173:5173"
     volumes:
       - ./client:/app
       - /app/node_modules
     env_file:
       - ./client/.env
-    command: npm run start
+    command: npm run dev
+    depends_on:
+      - server
 
   server:
-    container_name: devtrails-server
+    container_name: incomeshield-server
     build:
       context: ./server
       dockerfile: Dockerfile.server
@@ -25,17 +27,30 @@ services:
       - /app/node_modules
     env_file:
       - ./server/.env
-    command: npm run start
+    command: npm run dev
+    depends_on:
+      - database
+
+  ml-api:
+    container_name: incomeshield-ml
+    build:
+      context: ./Ml_API
+      dockerfile: Dockerfile.ml
+    ports:
+      - "8000:8000"
+    command: uvicorn fastapi_app:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - database
 
   database:
     image: postgres:15
-    container_name: devtrails-postgres
+    container_name: incomeshield-postgres
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: [PASSWORD] 
-      POSTGRES_DB: devtrails
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: incomeshield
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

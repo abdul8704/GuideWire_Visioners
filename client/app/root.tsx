@@ -8,6 +8,7 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { AuthProvider } from "./lib/auth";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -29,11 +30,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IncomeShield — Parametric Insurance for Gig Workers</title>
+        <meta name="description" content="AI-powered parametric insurance protecting India's gig workers with zero-touch claims and instant payouts." />
         <Meta />
         <Links />
       </head>
       <body>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -62,11 +67,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
+    <main style={{ padding: "2rem", maxWidth: "600px", margin: "auto", textAlign: "center" }}>
+      <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>{message}</h1>
+      <p style={{ color: "var(--text-secondary)" }}>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre style={{ marginTop: "1rem", padding: "1rem", overflow: "auto", fontSize: "0.8rem", borderRadius: "8px", background: "var(--bg-secondary)" }}>
           <code>{stack}</code>
         </pre>
       )}
